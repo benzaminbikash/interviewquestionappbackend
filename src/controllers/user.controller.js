@@ -22,8 +22,15 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new Error("Email and Password are required.", 400);
   const user = await userModels.findOne({ email });
   if (!user) throw new Error("User not found.");
+
   if (user && (await user.isPasswordMatch(password))) {
-    res.status(200).json(new ApiResponse("Login Successfully!", user));
+    const token = await user.generateAccessToken();
+    const userpass = await userModels
+      .findById(user._id)
+      .select("-password -role");
+    res
+      .status(200)
+      .json({ message: "Login Successfully!", token: token, data: userpass });
   }
 });
 
@@ -44,7 +51,7 @@ const changePasswordInApp = asyncHandler(async (req, res) => {
 
 const getMyData = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  const user = await userModels.findById(_id);
+  const user = await userModels.findById(_id).select("-password -role");
   res.status(200).json(new ApiResponse("Your All Data", user));
 });
 

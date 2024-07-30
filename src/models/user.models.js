@@ -13,9 +13,8 @@ var userSchema = new mongoose.Schema(
       unique: true,
     },
     mobile: {
-      type: String,
+      type: Number,
       required: true,
-      unique: true,
     },
     password: {
       type: String,
@@ -47,12 +46,6 @@ userSchema.methods.isPasswordMatch = async function (enterPassword) {
 userSchema.methods.generateAccessToken = async function () {
   return jwt.sign({ _id: this._id }, process.env.ACCESSTOKEN, {
     expiresIn: process.env.ACCESSTOKENEXPIRY,
-  });
-};
-
-userSchema.methods.generateRefreshToken = async function () {
-  return jwt.sign({ _id: this._id }, process.env.REFRESHTOKEN, {
-    expiresIn: process.env.REFRESHTOKENEXPIRY,
   });
 };
 
