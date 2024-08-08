@@ -30,29 +30,28 @@ const getCategory = asyncHandler(async (req, res) => {
 const updateCategory = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { title } = req.body;
-
   if (req.file) {
     const file = req.file?.path;
     const uploadCloud = await CloudinaryImage(file);
     await categoryModel.findByIdAndUpdate(id, {
       $set: {
         image: uploadCloud.url,
-        title: title,
+        title,
       },
     });
     const category = await categoryModel.findById(id);
     res
       .status(200)
       .json(new ApiResponse("Update Category Successfully!", category));
+  } else {
+    await categoryModel.findByIdAndUpdate(id, {
+      $set: { title },
+    });
+    const category = await categoryModel.findById(id);
+    res
+      .status(200)
+      .json(new ApiResponse("Update Category Successfully!", category));
   }
-
-  await categoryModel.findByIdAndUpdate(id, {
-    $set: { title },
-  });
-  const category = await categoryModel.findById(id);
-  res
-    .status(200)
-    .json(new ApiResponse("Update Category Successfully!", category));
 });
 
 const deleteCategory = asyncHandler(async (req, res) => {
