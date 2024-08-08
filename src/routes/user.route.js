@@ -5,14 +5,25 @@ const {
   loginUser,
   getMyData,
   changePasswordInApp,
+  updateRolebyadmin,
+  getAllUser,
 } = require("../controllers/user.controller");
-const { authMiddlware } = require("../middlewares/auth.middlware");
+const {
+  authMiddlware,
+  adminMiddleware,
+} = require("../middlewares/auth.middlware");
 const router = express.Router();
 
-// router.route('/register').post(registrationUser)
 router.post("/registration", registrationUser);
 router.post("/login", loginUser);
 router.get("/mydata", authMiddlware, getMyData);
 router.put("/changepassword", authMiddlware, changePasswordInApp);
+router.put(
+  "/roleupdatebyadmin/:id",
+  authMiddlware,
+  adminMiddleware,
+  updateRolebyadmin
+);
+router.get("/alluser", authMiddlware, adminMiddleware, getAllUser);
 
 module.exports = router;

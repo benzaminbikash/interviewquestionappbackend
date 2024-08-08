@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+
 var userSchema = new mongoose.Schema(
   {
     name: {
@@ -15,6 +16,7 @@ var userSchema = new mongoose.Schema(
     mobile: {
       type: Number,
       required: true,
+      unique: true,
     },
     password: {
       type: String,
@@ -22,7 +24,15 @@ var userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
+      enum: {
+        values: ["user", "admin"],
+        message: "{VALUE} is not supported.",
+      },
       default: "user",
+    },
+    score: {
+      levelwise: [{ level: Number, score: Number }],
+      totalScore: Number,
     },
   },
   {

@@ -1,5 +1,0 @@
-// user:
-http://localhost:8000/api/v4/registration
-http://localhost:8000/api/v4/login
-http://localhost:8000/api/v4/mydata
-http://localhost:8000/api/v4/changepassword
