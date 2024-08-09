@@ -25,6 +25,13 @@ server.use("/api/v4", categoryrouter);
 server.use("/api/v4", questionanswer);
 server.use("/api/v4", quiz);
 
+server.get("/", (req, res) => {
+  res.status(200).json({
+    message: "Programming interview question and answer api!",
+    status: "success",
+  });
+});
+
 // error Middleware:
 server.use(notFound);
 server.use(errorHandler);
