@@ -1,8 +1,8 @@
-const questionanswerModel = require("../models/questionanswer.model");
 const { ApiError } = require("../utils/ApiError");
 const { ApiResponse } = require("../utils/ApiResponse");
 const { asyncHandler } = require("../utils/asyncHandler");
 const { CloudinaryImage } = require("../utils/CloudinaryImage");
+const questionanswerModel = require("../models/questionanswer.model");
 
 const questionanswercreate = asyncHandler(async (req, res) => {
   const { question, answer, category } = req.body;

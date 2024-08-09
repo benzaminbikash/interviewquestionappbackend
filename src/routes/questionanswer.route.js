@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const fileUpload = require("../middlewares/upload.middleware");
+
 const {
   questionanswercreate,
   getquestionanswerbycategory,
@@ -8,6 +8,7 @@ const {
   updatequestionanswer,
   getallquestionanswer,
 } = require("../controllers/questionanswer.controller");
+const fileUpload = require("../middlewares/upload.middleware");
 
 router.post(
   "/questionanswer",

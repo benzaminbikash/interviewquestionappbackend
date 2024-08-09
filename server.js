@@ -1,18 +1,19 @@
 require("dotenv").config();
-const express = require("express");
-const server = new express();
 const cors = require("cors");
-const mongoose = require("mongoose");
+const express = require("express");
 const morgan = require("morgan");
+const mongoose = require("mongoose");
+
+const server = new express();
 
 const {
   errorHandler,
   notFound,
 } = require("./src/middlewares/error.middleware");
+const quiz = require("./src/routes/quiz.route");
 const userrouter = require("./src/routes/user.route");
 const categoryrouter = require("./src/routes/category.route");
 const questionanswer = require("./src/routes/questionanswer.route");
-const quiz = require("./src/routes/quiz.route");
 
 server.use(cors());
 server.use(morgan("dev"));

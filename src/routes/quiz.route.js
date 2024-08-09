@@ -1,11 +1,12 @@
 const express = require("express");
+const router = express.Router();
+
 const {
   createQuiz,
   getquizbylevel,
   playquiz,
 } = require("../controllers/quiz.controller");
 const { authMiddlware } = require("../middlewares/auth.middlware");
-const router = express.Router();
 
 router.post("/quiz", createQuiz);
 router.get("/quiz/:level", getquizbylevel);

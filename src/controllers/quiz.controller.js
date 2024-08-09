@@ -1,6 +1,6 @@
+const { ApiError } = require("../utils/ApiError");
 const quizModels = require("../models/quiz.models");
 const userModels = require("../models/user.models");
-const { ApiError } = require("../utils/ApiError");
 const { ApiResponse } = require("../utils/ApiResponse");
 const { asyncHandler } = require("../utils/asyncHandler");
 

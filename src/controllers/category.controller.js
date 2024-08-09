@@ -1,7 +1,7 @@
-const categoryModel = require("../models/category.model");
 const { ApiError } = require("../utils/ApiError");
 const { ApiResponse } = require("../utils/ApiResponse");
 const { asyncHandler } = require("../utils/asyncHandler");
+const categoryModel = require("../models/category.model");
 const { CloudinaryImage } = require("../utils/CloudinaryImage");
 
 const addCategory = asyncHandler(async (req, res) => {

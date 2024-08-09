@@ -1,6 +1,7 @@
-const { ApiError } = require("./ApiError");
-const cloudinary = require("cloudinary").v2;
 const fs = require("fs");
+const cloudinary = require("cloudinary").v2;
+
+const { ApiError } = require("./ApiError");
 
 cloudinary.config({
   cloud_name: process.env.CLOUDNAME,
