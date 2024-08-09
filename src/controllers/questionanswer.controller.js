@@ -7,14 +7,27 @@ const { CloudinaryImage } = require("../utils/CloudinaryImage");
 const questionanswercreate = asyncHandler(async (req, res) => {
   const { question, answer, category } = req.body;
   const file = req.file?.path;
-  if (!question || !answer || !file || !category)
-    throw new ApiError("All fields are required.", 400);
-  const sendcloudinary = await CloudinaryImage(file);
+  if (file) {
+    const sendcloudinary = await CloudinaryImage(file);
+    const questionanswer = await questionanswerModel.create({
+      ...req.body,
+      image: sendcloudinary.url,
+    });
+    res
+      .status(201)
+      .json(
+        new ApiResponse(
+          "Question and Answer Create Successfully!",
+          questionanswer
+        )
+      );
+  }
+  if (!question || !answer || !category)
+    throw new ApiError("Question, answer and category are required.", 400);
   const questionanswer = await questionanswerModel.create({
     question,
     answer,
     category,
-    image: sendcloudinary.url,
   });
   res
     .status(201)
@@ -26,10 +39,15 @@ const questionanswercreate = asyncHandler(async (req, res) => {
     );
 });
 
+const getallquestionanswer = asyncHandler(async (req, res) => {
+  const data = await questionanswerModel.find().populate("category");
+  res.status(200).json(new ApiResponse("Get All Data", data));
+});
+
 const getquestionanswerbycategory = asyncHandler(async (req, res) => {
   const { category } = req.params;
   const data = await questionanswerModel.find({ category });
-  res.status(200).json(new ApiResponse("Get Data", data));
+  res.status(200).json(new ApiResponse(`Get Data of ${category}`, data));
 });
 
 const deletequestionanswer = asyncHandler(async (req, res) => {
@@ -41,13 +59,29 @@ const deletequestionanswer = asyncHandler(async (req, res) => {
 });
 
 const updatequestionanswer = asyncHandler(async (req, res) => {
+  const { id } = req.params;
   const file = req.file?.path;
   if (file) {
     const imagecloud = await CloudinaryImage(file);
-    const updatequestionanswer = await questionanswerModel.findByIdAndUpdate(
-      req.params.id,
-      { $set: { ...req.body, image: imagecloud.url } }
+    await questionanswerModel.findByIdAndUpdate(id, {
+      $set: { ...req.body, image: imagecloud.url },
+    });
+    const updatequestionanswer = await questionanswerModel.findById(id);
+    res
+      .status(200)
+      .json(
+        new ApiResponse(
+          "Question Answer Update Successfully.",
+          updatequestionanswer
+        )
+      );
+  } else {
+    await questionanswerModel.findByIdAndUpdate(
+      { _id: req.params.id },
+      req.body
     );
+
+    const updatequestionanswer = await questionanswerModel.findById(id);
     res
       .status(200)
       .json(
@@ -57,18 +91,6 @@ const updatequestionanswer = asyncHandler(async (req, res) => {
         )
       );
   }
-  const updatequestionanswer = await questionanswerModel.findByIdAndUpdate(
-    req.paramas.id,
-    { $set: { ...req.body } }
-  );
-  res
-    .status(200)
-    .json(
-      new ApiResponse(
-        "Question Answer Update Successfully.",
-        updatequestionanswer
-      )
-    );
 });
 
 module.exports = {
@@ -76,4 +98,5 @@ module.exports = {
   getquestionanswerbycategory,
   deletequestionanswer,
   updatequestionanswer,
+  getallquestionanswer,
 };
