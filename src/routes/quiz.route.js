@@ -10,5 +10,7 @@ const router = express.Router();
 router.post("/quiz", createQuiz);
 router.get("/quiz/:level", getquizbylevel);
 router.put("/playquiz", authMiddlware, playquiz);
+router.put("/quiz/id", playquiz);
+router.delete("/quiz/:id", playquiz);
 
 module.exports = router;

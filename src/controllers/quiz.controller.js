@@ -31,19 +31,16 @@ const playquiz = asyncHandler(async (req, res) => {
   const levelIndex = user.score.levelwise.findIndex(
     (item) => item.level === level
   );
-
   if (levelIndex !== -1) {
     user.score.levelwise[levelIndex].score = gamescore;
   } else {
     user.score.levelwise.push({ level, score: gamescore });
   }
   await user.save();
-
   let totalscore = 0;
   for (let sr of user.score.levelwise) {
     totalscore += sr?.score;
   }
-  console.log(totalscore);
   user.score.totalScore = totalscore;
   await user.save();
   const data = await userModels.findById(_id).select("-password");
@@ -61,4 +58,22 @@ const playquiz = asyncHandler(async (req, res) => {
     );
 });
 
-module.exports = { createQuiz, getquizbylevel, playquiz };
+const updateQuiz = asyncHandler(async (req, res) => {
+  const data = await quizModels.findByIdAndUpdate(req.params.id, {
+    $set: { ...req.body },
+  });
+  res.status(200).json(new ApiResponse(`Update quiz.`, data));
+});
+
+const deleteQuiz = asyncHandler(async (req, res) => {
+  const data = await quizModels.findByIdAndDelete(req.params.id);
+  res.status(200).json(new ApiResponse(`Update quiz.`, data));
+});
+
+module.exports = {
+  createQuiz,
+  getquizbylevel,
+  playquiz,
+  updateQuiz,
+  deleteQuiz,
+};
