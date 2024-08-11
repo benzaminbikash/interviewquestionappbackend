@@ -7,7 +7,7 @@ const notFound = async (req, res, next) => {
 const errorHandler = (error, req, res, next) => {
   const statusCode = error.statusCode || 500;
   res.status(statusCode);
-  res.send({ message: error.message, status: "fail", stack: error.stack });
+  res.send({ message: error.message, status: "fail" });
 };
 
 module.exports = { notFound, errorHandler };

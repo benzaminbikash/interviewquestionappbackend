@@ -35,6 +35,27 @@ const loginUser = asyncHandler(async (req, res) => {
     throw new Error("Invalid user or password.");
   }
 });
+const adminLogin = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password)
+    throw new ApiError("Email and Password are required.", 400);
+  const user = await userModels.findOne({ email });
+  if (user && (await user.isPasswordMatch(password))) {
+    if (user.role == "admin") {
+      const token = await user.generateAccessToken();
+      const userpass = await userModels
+        .findById(user._id)
+        .select("-password -role");
+      res
+        .status(200)
+        .json({ message: "Login Successfully!", token: token, data: userpass });
+    } else {
+      throw new Error("You are not admin.", 401);
+    }
+  } else {
+    throw new Error("Invalid user or password.", 401);
+  }
+});
 
 const changePasswordInApp = asyncHandler(async (req, res) => {
   const { _id } = req.user;
@@ -79,4 +100,5 @@ module.exports = {
   changePasswordInApp,
   updateRolebyadmin,
   getAllUser,
+  adminLogin,
 };

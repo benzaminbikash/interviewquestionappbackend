@@ -8,6 +8,7 @@ const {
   changePasswordInApp,
   updateRolebyadmin,
   getAllUser,
+  adminLogin,
 } = require("../controllers/user.controller");
 const {
   authMiddlware,
@@ -16,6 +17,8 @@ const {
 
 router.post("/registration", registrationUser);
 router.post("/login", loginUser);
+router.post("/adminlogin", adminLogin);
+
 router.get("/mydata", authMiddlware, getMyData);
 router.put("/changepassword", authMiddlware, changePasswordInApp);
 router.put(
