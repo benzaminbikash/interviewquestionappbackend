@@ -15,7 +15,13 @@ const userrouter = require("./src/routes/user.route");
 const categoryrouter = require("./src/routes/category.route");
 const questionanswer = require("./src/routes/questionanswer.route");
 
-server.use(cors());
+const corsOptions = {
+  origin: "http://localhost:5173", // Allow only requests from this origin
+  methods: "GET,POST, PUT, PATCH, DELETE", // Allow only these methods
+  allowedHeaders: ["Content-Type", "Authorization"], // Allow only these headers
+};
+
+server.use(cors(corsOptions));
 server.use(morgan("dev"));
 server.use(express.json());
 
