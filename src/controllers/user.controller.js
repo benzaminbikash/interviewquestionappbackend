@@ -28,11 +28,14 @@ const loginUser = asyncHandler(async (req, res) => {
     const userpass = await userModels
       .findById(user._id)
       .select("-password -role");
-    res
-      .status(200)
-      .json({ message: "Login Successfully!", token: token, data: userpass });
+    res.status(200).json({
+      message: "Login Successfully!",
+      token: token,
+      data: userpass,
+      status: "success",
+    });
   } else {
-    throw new Error("Invalid user or password.");
+    throw new ApiError("Invalid user or password.");
   }
 });
 const adminLogin = asyncHandler(async (req, res) => {
@@ -46,14 +49,17 @@ const adminLogin = asyncHandler(async (req, res) => {
       const userpass = await userModels
         .findById(user._id)
         .select("-password -role");
-      res
-        .status(200)
-        .json({ message: "Login Successfully!", token: token, data: userpass });
+      res.status(200).json({
+        message: "Login Successfully!",
+        token: token,
+        data: userpass,
+        status: "success",
+      });
     } else {
-      throw new Error("You are not admin.", 401);
+      throw new ApiError("You are not admin.", 401);
     }
   } else {
-    throw new Error("Invalid user or password.", 401);
+    throw new ApiError("Invalid user or password.", 401);
   }
 });
 
