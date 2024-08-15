@@ -18,6 +18,7 @@ const questionanswer = require("./src/routes/questionanswer.route");
 server.use(cors());
 server.use(morgan("dev"));
 server.use(express.json());
+server.use("/uploads", express.static("uploads"));
 
 // app router:
 server.use("/api/v4", userrouter);
