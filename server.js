@@ -3,12 +3,6 @@ const cors = require("cors");
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
-const path = require("path");
-const fs = require("fs");
-const uploadsDir = path.join(__dirname, "uploads"); // Use path.join for cross-platform compatibility
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir);
-}
 
 const server = new express();
 
