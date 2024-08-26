@@ -22,13 +22,8 @@ const questionanswercreate = asyncHandler(async (req, res) => {
         )
       );
   }
-  if (!question || !answer || !category)
-    throw new ApiError("Question, answer and category are required.", 400);
-  const questionanswer = await questionanswerModel.create({
-    question,
-    answer,
-    category,
-  });
+  if (!category) throw new ApiError("Category are required.", 400);
+  const questionanswer = await questionanswerModel.create(req.body);
   res
     .status(201)
     .json(
