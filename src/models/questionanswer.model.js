@@ -1,5 +1,14 @@
 const mongoose = require("mongoose");
 
+const POINT = new mongoose.Schema({
+  heading: {
+    type: String,
+  },
+  point: {
+    type: Array,
+  },
+});
+
 var questionanswerSchema = new mongoose.Schema(
   {
     question: {
@@ -7,9 +16,10 @@ var questionanswerSchema = new mongoose.Schema(
       required: true,
     },
     answer: {
-      type: String,
+      type: [String],
       required: true,
     },
+    points: POINT,
     image: {
       type: String,
     },

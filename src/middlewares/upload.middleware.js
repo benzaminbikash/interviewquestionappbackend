@@ -4,7 +4,6 @@ const fs = require("fs");
 
 const uploadsDir = path.join("/tmp", "uploads");
 
-// Create the uploads directory if it doesn't exist
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir);
 }
