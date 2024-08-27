@@ -72,7 +72,7 @@ const updateQuiz = asyncHandler(async (req, res) => {
 
 const deleteQuiz = asyncHandler(async (req, res) => {
   const data = await quizModels.findByIdAndDelete(req.params.id);
-  res.status(200).json(new ApiResponse(`Update quiz.`, data));
+  res.status(200).json(new ApiResponse(`Delete quiz.`, data));
 });
 
 module.exports = {
