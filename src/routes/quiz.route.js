@@ -5,10 +5,12 @@ const {
   createQuiz,
   getquizbylevel,
   playquiz,
+  getquizs,
 } = require("../controllers/quiz.controller");
 const { authMiddlware } = require("../middlewares/auth.middlware");
 
 router.post("/quiz", createQuiz);
+router.get("/quiz", getquizs);
 router.get("/quiz/:level", getquizbylevel);
 router.put("/playquiz", authMiddlware, playquiz);
 router.put("/quiz/id", playquiz);

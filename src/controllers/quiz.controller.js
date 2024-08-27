@@ -23,6 +23,11 @@ const getquizbylevel = asyncHandler(async (req, res) => {
     .json(new ApiResponse(`Quiz of level ${req.params.level}. `, data));
 });
 
+const getquizs = asyncHandler(async (req, res) => {
+  const data = await quizModels.find();
+  res.status(200).json(new ApiResponse(`All Quizes. `, data));
+});
+
 const playquiz = asyncHandler(async (req, res) => {
   const { _id } = req.user;
   const { level, gamescore } = req.body;
@@ -76,4 +81,5 @@ module.exports = {
   playquiz,
   updateQuiz,
   deleteQuiz,
+  getquizs,
 };
