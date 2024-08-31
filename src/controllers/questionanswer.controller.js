@@ -5,9 +5,18 @@ const { CloudinaryImage } = require("../utils/CloudinaryImage");
 const questionanswerModel = require("../models/questionanswer.model");
 
 const questionanswercreate = asyncHandler(async (req, res) => {
-  const { question, answer, category } = req.body;
   const file = req.file?.path;
-  if (file) {
+  if (!file) {
+    const questionanswer = await questionanswerModel.create(req.body);
+    res
+      .status(201)
+      .json(
+        new ApiResponse(
+          "Question and Answer Create Successfully Without Image!",
+          questionanswer
+        )
+      );
+  } else {
     const sendcloudinary = await CloudinaryImage(file);
     const questionanswer = await questionanswerModel.create({
       ...req.body,
@@ -22,16 +31,7 @@ const questionanswercreate = asyncHandler(async (req, res) => {
         )
       );
   }
-  if (!category) throw new ApiError("Category are required.", 400);
-  const questionanswer = await questionanswerModel.create(req.body);
-  res
-    .status(201)
-    .json(
-      new ApiResponse(
-        "Question and Answer Create Successfully!",
-        questionanswer
-      )
-    );
+  console.log("running");
 });
 
 const getallquestionanswer = asyncHandler(async (req, res) => {

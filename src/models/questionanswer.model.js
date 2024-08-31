@@ -13,6 +13,7 @@ var questionanswerSchema = new mongoose.Schema(
   {
     question: {
       type: String,
+      unique: true,
     },
     answer: {
       type: [String],
