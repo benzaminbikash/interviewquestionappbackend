@@ -43,10 +43,11 @@ var userSchema = new mongoose.Schema(
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     next();
+  } else {
+    const bcryptSalt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, bcryptSalt);
+    next();
   }
-  const bcryptSalt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, bcryptSalt);
-  next();
 });
 
 userSchema.methods.isPasswordMatch = async function (enterPassword) {
