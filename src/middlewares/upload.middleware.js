@@ -2,11 +2,12 @@ const path = require("path");
 const multer = require("multer");
 const fs = require("fs");
 
+// for vercal development process from here
 const uploadsDir = path.join("/tmp", "uploads");
 
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir);
-}
+} // to here
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {

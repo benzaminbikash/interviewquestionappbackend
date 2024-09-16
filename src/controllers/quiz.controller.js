@@ -54,7 +54,7 @@ const playquiz = asyncHandler(async (req, res) => {
     .json(
       new ApiResponse(
         `${
-          gamescore > 80
+          gamescore >= 70
             ? "Congratulations now you can move to another level."
             : "Better next time."
         }`,
