@@ -168,6 +168,13 @@ const PasswordChange = asyncHandler(async (req, res) => {
   if (!user.passwordrecory.verify)
     throw new ApiError("OTP has not been verified.", 400);
 
+  const isSamePassword = await bcrypt.compare(password, user.password);
+  if (isSamePassword) {
+    throw new ApiError(
+      "New password cannot be the same as the old password.",
+      400
+    );
+  }
   const bcryptSalt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, bcryptSalt);
 
