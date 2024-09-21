@@ -9,6 +9,9 @@ const {
   updateRolebyadmin,
   getAllUser,
   adminLogin,
+  sendOTPForPasswordRecovery,
+  PasswordRecovery,
+  PasswordChange,
 } = require("../controllers/user.controller");
 const {
   authMiddlware,
@@ -28,5 +31,8 @@ router.put(
   updateRolebyadmin
 );
 router.get("/alluser", authMiddlware, adminMiddleware, getAllUser);
+router.put("/sendotp", sendOTPForPasswordRecovery);
+router.put("/passwordrecovery", PasswordRecovery);
+router.put("/passwordchange", PasswordChange);
 
 module.exports = router;

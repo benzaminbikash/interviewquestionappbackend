@@ -34,6 +34,18 @@ var userSchema = new mongoose.Schema(
       levelwise: [{ level: Number, score: Number }],
       totalScore: Number,
     },
+    passwordrecory: {
+      otp: {
+        type: Number,
+      },
+      time: {
+        type: Date,
+      },
+      verify: {
+        type: Boolean,
+        default: false,
+      },
+    },
   },
   {
     timestamps: true,
