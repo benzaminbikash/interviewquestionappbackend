@@ -1,8 +1,12 @@
 const { ApiResponse } = require("../utils/ApiResponse");
 const { asyncHandler } = require("../utils/asyncHandler");
 const questionanswerModel = require("../models/questionanswer.model");
+const { ApiError } = require("../utils/ApiError");
 
 const questionanswercreate = asyncHandler(async (req, res) => {
+  const { question } = req.body;
+  console.log(question);
+  if (!question) throw new ApiError(`Question is required.`);
   const questionanswer = await questionanswerModel.create(req.body);
   res
     .status(201)
