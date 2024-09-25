@@ -1,37 +1,17 @@
-const { ApiError } = require("../utils/ApiError");
 const { ApiResponse } = require("../utils/ApiResponse");
 const { asyncHandler } = require("../utils/asyncHandler");
-const { CloudinaryImage } = require("../utils/CloudinaryImage");
 const questionanswerModel = require("../models/questionanswer.model");
 
 const questionanswercreate = asyncHandler(async (req, res) => {
-  const file = req.file?.path;
-  if (!file) {
-    const questionanswer = await questionanswerModel.create(req.body);
-    res
-      .status(201)
-      .json(
-        new ApiResponse(
-          "Question and Answer Create Successfully Without Image!",
-          questionanswer
-        )
-      );
-  } else {
-    const sendcloudinary = await CloudinaryImage(file);
-    const questionanswer = await questionanswerModel.create({
-      ...req.body,
-      image: sendcloudinary.url,
-    });
-    res
-      .status(201)
-      .json(
-        new ApiResponse(
-          "Question and Answer Create Successfully!",
-          questionanswer
-        )
-      );
-  }
-  console.log("running");
+  const questionanswer = await questionanswerModel.create(req.body);
+  res
+    .status(201)
+    .json(
+      new ApiResponse(
+        "Question and Answer Create Successfully!",
+        questionanswer
+      )
+    );
 });
 
 const getallquestionanswer = asyncHandler(async (req, res) => {
@@ -54,38 +34,17 @@ const deletequestionanswer = asyncHandler(async (req, res) => {
 });
 
 const updatequestionanswer = asyncHandler(async (req, res) => {
-  const { id } = req.params;
-  const file = req.file?.path;
-  if (file) {
-    const imagecloud = await CloudinaryImage(file);
-    await questionanswerModel.findByIdAndUpdate(id, {
-      $set: { ...req.body, image: imagecloud.url },
-    });
-    const updatequestionanswer = await questionanswerModel.findById(id);
-    res
-      .status(200)
-      .json(
-        new ApiResponse(
-          "Question Answer Update Successfully.",
-          updatequestionanswer
-        )
-      );
-  } else {
-    await questionanswerModel.findByIdAndUpdate(
-      { _id: req.params.id },
-      req.body
-    );
+  await questionanswerModel.findByIdAndUpdate({ _id: req.params.id }, req.body);
 
-    const updatequestionanswer = await questionanswerModel.findById(id);
-    res
-      .status(200)
-      .json(
-        new ApiResponse(
-          "Question Answer Update Successfully.",
-          updatequestionanswer
-        )
-      );
-  }
+  const updatequestionanswer = await questionanswerModel.findById(id);
+  res
+    .status(200)
+    .json(
+      new ApiResponse(
+        "Question Answer Update Successfully.",
+        updatequestionanswer
+      )
+    );
 });
 
 module.exports = {

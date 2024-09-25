@@ -19,12 +19,15 @@ var questionanswerSchema = new mongoose.Schema(
       type: [String],
     },
     points: POINT,
-    image: {
-      type: String,
-    },
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Category",
+    },
+    coding: {
+      type: String,
+    },
+    youtubelink: {
+      type: String,
     },
   },
   {
